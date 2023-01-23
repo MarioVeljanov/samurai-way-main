@@ -1,0 +1,22 @@
+.nav {
+  grid-area: n;
+  background-color: rgb(43, 100, 43);
+  text-align: center;
+  padding: 20px;
+  min-height: 600px;
+  
+}
+
+.nav_element {
+   margin-bottom: 15px;
+}
+
+.nav_element a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav_element a.active {
+  color: rgb(156, 65, 118);
+  font-weight: 700;
+}
