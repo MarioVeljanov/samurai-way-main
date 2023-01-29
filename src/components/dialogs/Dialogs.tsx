@@ -1,40 +1,30 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import s from './Dialogs.module.css'
+import DialogItem from "./DialogItem/DialogsItem";
+import Message from "./Messages/Messages";
+import { MessagesDateType } from "../../redux/state";
 
 
-
-const DialogItme = (props: any) => {
-  return (
-    <div className={s.dialogs_item + " " + s.active}>
-      <NavLink to="/dialogs/1">{props.name}</NavLink>
-    </div>
-  );
+type DialogsDataProps = {
+  state: MessagesDateType;
 };
 
-const Dialogs = () => {
-    return (
-        <div className={s.dialogs}>
-            <div className={s.dialogs_items}>
-            <DialogItme name="Vasya" id={1} />
-            <div />
-            <div className={s.dialogs_item}>
-              <NavLink to="/dialogs/2">Stole</NavLink>
-            </div>
-            <div className={s.dialogs_item}>
-              <NavLink to="/dialogs/3">Dimche</NavLink>
-            </div>
-            <div className={s.dialogs_item}>
-              <NavLink to="/dialogs/4">Mile</NavLink>
-            </div>
-          </div>
+const Dialogs: React.FC<DialogsDataProps> = (props) => {
+ 
+  const dialogsElement = props.state.dialogsData.map(d => <DialogItem name={d.name} id={d.id} />)
+  const messagesElement = props.state.messagesData.map(m => <Message messages={m.messages} id={m.id} />)
 
-          <div className={s.messages}>
-            <div className={s.messages_item}>Hi!</div>
-            <div className={s.messages_item}>How are you?</div>
-            <div className={s.messages_item}>What's up bro?</div>
-          </div>
+    return (
+      <div className={s.dialogs}>
+        <div className={s.dialogsItems}>
+          {dialogsElement}
         </div>
+
+        <div className={s.messages}>
+          {messagesElement}
+          
+        </div>
+      </div>
     );
 }
 

@@ -1,26 +1,23 @@
 import React from "react";
+import {  ProfileType } from "../../redux/state";
 import MyPost from "./MyPosts/MyPost";
-import p from './Profile.module.css'
+import s from './Profile.module.css'
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = () => {
-    return (
-      <div>
-        <img
-          src="https://img.freepik.com/free-photo/beautiful-scenery-road-forest-with-lot-colorful-autumn-trees_181624-30942.jpg?w=2000"
-          alt=""
-        />
 
-        <div className={p.description}>
-          ava + img
-          <img className={p.decriptiom_image} src="" alt="" />
-          <div className={p.decsription_text}>
-            <div className={p.name}></div>
-          </div>
-        </div>
-        <MyPost/>
-      </div>
-    );
-}
+type PostPropstype = {
+  posts: ProfileType;
+};
+
+const Profile: React.FC<PostPropstype> = (props) => {
+  return (
+    <div>
+      <ProfileInfo />
+
+      <MyPost postsData={props.posts.postsData}/>
+    </div>
+  );
+};
 
 
 export default Profile;
