@@ -12,7 +12,11 @@ type MessagesItemProps = {
 
 
 const Message: React.FC<MessagesItemProps> = (props) => {
-  return <div className={s.messages_item}>{props.messages}</div>;
+  return (
+      <>
+          <div className={s.messages_item}>{props.messages}</div>
+      </>
+  );
 };
 
 

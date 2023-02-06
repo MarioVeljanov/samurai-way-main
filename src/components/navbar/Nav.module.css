@@ -1,6 +1,10 @@
+.nav_container {
+  
+}
+
 .nav {
   grid-area: n;
-  background-color: rgb(43, 100, 43);
+  background-color: rgb(128, 192, 75);
   text-align: center;
   padding: 20px;
   min-height: 600px;
@@ -19,4 +23,38 @@
 .nav_element a.active {
   color: rgb(156, 65, 118);
   font-weight: 700;
+}
+
+.nav_friends {
+  margin-top: 150px;
+}
+
+.friend {
+  font-size: 30px;
+  font-weight: 100;
+  color: #fff;
+}
+
+.friends_container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+}
+
+.friend_wrapper {
+  width: 50px;
+  margin-top: 10px;
+  font-size: 13px;
+  color:#fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.friends_container img {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
 }

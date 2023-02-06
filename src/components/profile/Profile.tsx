@@ -6,7 +6,9 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 
 type PostPropstype = {
-  posts: ProfileType;
+    posts: ProfileType;
+    addPost: () => void;
+    updateNewPostDate: (newText: string) => void;
 };
 
 const Profile: React.FC<PostPropstype> = (props) => {
@@ -14,7 +16,9 @@ const Profile: React.FC<PostPropstype> = (props) => {
     <div>
       <ProfileInfo />
 
-      <MyPost postsData={props.posts.postsData}/>
+      <MyPost posts={props.posts} addPost={props.addPost} updateNewPostDate={props.updateNewPostDate}/>
+
+      
     </div>
   );
 };

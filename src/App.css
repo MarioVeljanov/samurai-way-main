@@ -14,7 +14,7 @@
 
 .app-wrapper-container {
   grid-area: 'c';
-  background-color:aqua
+  background-color:rgb(128, 192, 75);
 }
 
 

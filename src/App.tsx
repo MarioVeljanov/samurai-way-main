@@ -15,6 +15,8 @@ import {  StateType } from './redux/state';
 
 type AppType = {
   appState: StateType
+  addPost: () => void
+  updateNewPostDate: (newText: string) => void
 }
 
 
@@ -24,9 +26,9 @@ function App(props: AppType) {
     <BrowserRouter>
       <div className="app-wrapper">
         <Header />
-        <Nav />
+        <Nav friends={props.appState.sidebar}/>
         <div className="app-wrapper-container">
-          {/* <Route path="/dialogs" component={Dialogs} /> */}
+        
           <Route
             path="/dialogs"
             render={() => (
@@ -35,11 +37,12 @@ function App(props: AppType) {
               />
             )}
           />
-          {/* <Route path="/profile" component={Profile} /> */}
+    
           <Route
             path="/profile"
-            render={() => <Profile posts={props.appState.profile} />}
+            render={() => <Profile posts={props.appState.profile} addPost={props.addPost} updateNewPostDate={props.updateNewPostDate}/>}
           />
+          
           <Route path="/news" component={News} />
           <Route path="/music" component={Music} />
           <Route path="/settings" component={Settings} />

@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import state from './redux/state';
 
-ReactDOM.render(
-  <App
-    appState={state}
-  />,
-  document.getElementById("root")
-);
+import state from './redux/state';
+import { rerenderEntireThree } from './render';
+
+
+rerenderEntireThree(state)
+
+

@@ -1,10 +1,17 @@
+.dialog_container {
+    position: relative;
+}
+
 .dialogs {
     display: grid;
-    grid-template-columns: 3fr 7fr;
+    grid-template-columns: 2fr 7fr;
+    
 }
 
 .dialogsItems {
+    min-height: 640px;
     padding: 10px;
+    border-right: 3px solid #ce70be;
 
 }
 
@@ -14,11 +21,29 @@
 }
 
 .dialogs_item {
+    
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    
+}
 
+.dialogs_item img{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
 }
 
 .messages {
     padding: 10px;
+}
+
+.message_sender {
+    position: absolute;
+    right: 27px;
+    bottom: -13px;
+    width: 700px;
 }
 
 .messages_item {

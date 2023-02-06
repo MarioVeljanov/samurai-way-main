@@ -1,30 +1,50 @@
-import React from "react";
-import { PostData } from "../../../redux/state";
-import p from './MyPost.module.css'
+import React, { ChangeEvent} from "react";
+import { PostData, ProfileType } from "../../../redux/state";
+import s from './MyPost.module.css'
 import Post from "./posts/Post";
 
 type PostPropstype = {
-  postsData: Array<PostData>;
+    posts: ProfileType;
+    addPost: () => void;
+    updateNewPostDate: (newText: string) => void;
 };
 
 const MyPost: React.FC<PostPropstype> = (props) => {
 
+  // const newPostsElement = React.createRef<HTMLTextAreaElement>();
 
-  const postElement = props.postsData.map((p) => (
+  const postElement = props.posts.postsData.map((p) => (
     <Post messages={p.messages} likesCount={p.likesCount} id={p.id} />
   ));
 
+  const addPosts = () => {
+    props.addPost()
+  }
+
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    
+    props.updateNewPostDate(e.currentTarget.value);
+   
+  };
+
   return (
-    <div className={p.post}>
-      <div className={p.add_posts}>
+    <div className={s.post}>
+      <div className={s.add_posts}>
         <h2>My posts</h2>
-        <div>
-          <textarea></textarea>
-        </div>
-        <div>
-          <button>Add post </button>
+        <div className={s.add_post_wrapper}>
+          <textarea 
+            value={props.posts.newPostText} 
+            placeholder="yor news..." 
+            className={s.textarea} 
+            onChange={onChange}
+          >
+
+          </textarea>
+          <button onClick={addPosts}>Add post </button>
         </div>
       </div>
+
+
       <div>{postElement}</div>
     </div>
   );
