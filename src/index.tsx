@@ -1,10 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
+import store from "./redux/state";
 
-import state from './redux/state';
-import { rerenderEntireThree } from './render';
+
+const rerenderEntireThree = () => {
+    ReactDOM.render(
+        <BrowserRouter>
+            <App
+                appState={store.getState()}
+                dispath={store.dispath.bind(store)}
+            />
+        </BrowserRouter>,
+        document.getElementById("root")
+    );
+};
 
 
-rerenderEntireThree(state)
 
+rerenderEntireThree()
+
+store.subccribe(rerenderEntireThree);
 

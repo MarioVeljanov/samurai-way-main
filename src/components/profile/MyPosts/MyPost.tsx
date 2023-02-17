@@ -1,15 +1,16 @@
 import React, { ChangeEvent} from "react";
-import { PostData, ProfileType } from "../../../redux/state";
+import { ActionsTypes, addPostActionCreater, ProfileType, updateNewPostTextActionCreater } from "../../../redux/state";
 import s from './MyPost.module.css'
 import Post from "./posts/Post";
 
 type PostPropstype = {
     posts: ProfileType;
-    addPost: () => void;
-    updateNewPostDate: (newText: string) => void;
+    dispath: (action: ActionsTypes) => void;
 };
 
+
 const MyPost: React.FC<PostPropstype> = (props) => {
+
 
   // const newPostsElement = React.createRef<HTMLTextAreaElement>();
 
@@ -18,12 +19,12 @@ const MyPost: React.FC<PostPropstype> = (props) => {
   ));
 
   const addPosts = () => {
-    props.addPost()
+    props.dispath(addPostActionCreater());
   }
 
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    props.dispath(updateNewPostTextActionCreater(e.currentTarget.value));
     
-    props.updateNewPostDate(e.currentTarget.value);
    
   };
 

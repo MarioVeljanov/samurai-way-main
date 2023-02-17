@@ -15,10 +15,7 @@
 
 }
 
-.dialogs_item.active {
-    color: rgb(212, 56, 90);
-    font-weight: 700;
-}
+
 
 .dialogs_item {
     
@@ -46,6 +43,10 @@
     width: 700px;
 }
 
+.active {
+    color: rgb(212, 56, 90);
+    font-weight: 700;
+}
 .messages_item {
 
 }
