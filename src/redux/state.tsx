@@ -1,3 +1,7 @@
+import { addMessagesTextActionCreater, dialogsReducer, updateMessagesTextActionCreater } from "./dialogs-reducer";
+import { addPostActionCreater, profileReducer, updateNewPostTextActionCreater } from "./profile-reducer";
+import { sidebarReducer } from "./sidebar-reducer";
+
 export type DialogsType = {
   id: number;
   name: string;
@@ -47,28 +51,13 @@ export type StoreType = {
 };
 
 
+
+
 export type ActionsTypes =
     | ReturnType<typeof addPostActionCreater>
     | ReturnType<typeof updateNewPostTextActionCreater>
     | ReturnType<typeof addMessagesTextActionCreater>
     | ReturnType<typeof updateMessagesTextActionCreater>
-
-    
-export const addPostActionCreater = () => {
-    return {type: 'ADD-POST'} as const
-};
-
-export const updateNewPostTextActionCreater = (text: string) => {
-    return { type: "UPDATE-NEW-POST-TEXT", newText: text } as const;
-};
-
-export const addMessagesTextActionCreater = () => {
-    return { type: "ADD-MESSAGES-TEXT" } as const;
-};
-
-export const updateMessagesTextActionCreater = (text: string) => {
-    return { type: "UPDATE-MESSAGES-TEXT", newText: text } as const
-};
 
 
 
@@ -186,33 +175,39 @@ const store: StoreType = {
     //     this._callSubscriber();
     // },
     dispath(action) { //{ type: 'ADD-POST' }
-        if(action.type === 'ADD-POST') {
-            const newPostData: PostData = {
-                id: Math.random(),
-                messages: this._state.profile.newPostText,
-                likesCount: 0,
-            };
+        this._state.profile = profileReducer(this._state.profile, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
 
-            this._state.profile.postsData.push(newPostData);
-            this._state.profile.newPostText = "";
-            this._callSubscriber();
-            // this.addPost()
-        } else if(action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profile.newPostText = action.newText;
-            this._callSubscriber();
-            // this.updateNewPostDate(action.newText)
-        } else if(action.type === 'UPDATE-MESSAGES-TEXT') {
-            this._state.messagesPage.newDialogsText = action.newText
-            this._callSubscriber()
-        } else if(action.type === 'ADD-MESSAGES-TEXT') {
-            const newMessagestData: MessageType = {
-                id: Math.random(),
-                messages: this._state.messagesPage.newDialogsText
-            };
-            this._state.messagesPage.messagesData.push(newMessagestData)
-            this._state.messagesPage.newDialogsText = ''
-            this._callSubscriber()
-        }
+        this._callSubscriber();
+
+        // if(action.type === 'ADD-POST') {
+        //     const newPostData: PostData = {
+        //         id: Math.random(),
+        //         messages: this._state.profile.newPostText,
+        //         likesCount: 0,
+        //     };
+
+        //     this._state.profile.postsData.push(newPostData);
+        //     this._state.profile.newPostText = "";
+        //     this._callSubscriber();
+        //     // this.addPost()
+        // } else if(action.type === 'UPDATE-NEW-POST-TEXT') {
+        //     this._state.profile.newPostText = action.newText;
+        //     this._callSubscriber();
+        //     // this.updateNewPostDate(action.newText)
+        // } else if(action.type === 'UPDATE-MESSAGES-TEXT') {
+        //     this._state.messagesPage.newDialogsText = action.newText
+        //     this._callSubscriber()
+        // } else if(action.type === 'ADD-MESSAGES-TEXT') {
+        //     const newMessagestData: MessageType = {
+        //         id: Math.random(),
+        //         messages: this._state.messagesPage.newDialogsText
+        //     };
+        //     this._state.messagesPage.messagesData.push(newMessagestData)
+        //     this._state.messagesPage.newDialogsText = ''
+        //     this._callSubscriber()
+        // }
     }
 }
 

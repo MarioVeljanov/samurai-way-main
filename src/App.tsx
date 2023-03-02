@@ -1,39 +1,41 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
+import {  Route } from 'react-router-dom';
 import Profile from './components/profile/Profile';
 import Header from './components/header/Header';
 import Nav from './components/navbar/Nav';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/settings/Settings';
-import Dialogs from './components/dialogs/Dialogs';
-import {  ActionsTypes, StateType } from './redux/state';
+import {  ActionsTypes, MessagesDateType, ProfileType, SideType } from './redux/state';
+import { SuperDialogsConatainer } from './components/dialogs/DialogsContainer';
 
 
-
-
-type AppType = {
-    appState: StateType;
-    dispath: (action: ActionsTypes) => void;
+type AppStateType = {
+    dialogsReducer: MessagesDateType;
+    profileReducer: ProfileType;
+    sidebarReducer: SideType[]
 };
 
 
+type AppType = {
+    appState: AppStateType;
+    dispath: (action: ActionsTypes) => void;
+};
+
+  
 
 function App(props: AppType) {
- 
   return (
    
           <div className="app-wrapper">
               <Header />
-              <Nav friends={props.appState.sidebar} />
+              <Nav friends={props.appState.sidebarReducer} />
               <div className="app-wrapper-container">
                   <Route
                       path="/dialogs"
                       render={() => (
-                          <Dialogs
-                              state={props.appState.messagesPage}
-                              dispath={props.dispath}
+                          <SuperDialogsConatainer
                           />
                       )}
                   />
@@ -42,8 +44,6 @@ function App(props: AppType) {
                       path="/profile"
                       render={() => (
                           <Profile
-                              posts={props.appState.profile}
-                              dispath={props.dispath}
                           />
                       )}
                   />

@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { ActionsTypes, addMessagesTextActionCreater, updateMessagesTextActionCreater } from '../../../redux/state';
 import s from "./MessageSender.module.css";
 
 type MessageSenderType = {
-    dispath: (action: ActionsTypes) => void;
-    value:string
+    value: string;
+    onSendMessagesClick: () => void;
+    onNewMessagesClick: (text: string) => void;
 };
 
 const MessageSender: React.FC<MessageSenderType> = (props) => {
@@ -12,14 +12,13 @@ const MessageSender: React.FC<MessageSenderType> = (props) => {
     const newPostsElement = React.createRef<HTMLTextAreaElement>();
 
 
-    const addPosts = () => {
-        // const text = newPostsElement.current?.value;
-        props.dispath(addMessagesTextActionCreater());
+    const addMessages = () => {
+        props.onSendMessagesClick()
     };
 
 
      const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-         props.dispath(updateMessagesTextActionCreater(e.currentTarget.value));
+         props.onNewMessagesClick(e.currentTarget.value)
      };
     return (
         <div id={"hw1-send-message-form"} className={s.sendForm}>
@@ -31,7 +30,11 @@ const MessageSender: React.FC<MessageSenderType> = (props) => {
                 onChange={onChange}
             />
 
-            <button id={"hw1-button"} className={s.button} onClick={addPosts}>
+            <button
+                id={"hw1-button"}
+                className={s.button}
+                onClick={addMessages}
+            >
                 Send
             </button>
         </div>
