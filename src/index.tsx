@@ -29,21 +29,18 @@ import { StoreContext } from "./StoreContext";
 //     rerenderEntireThree(store.getState())
 // });
 
-const rerenderEntireThree = () => {
-    ReactDOM.render(
-        <BrowserRouter>
-            <Provider store={store}>
-                <App
-                    appState={store.getState()}
-                    dispath={store.dispatch.bind(store)}
-                />
-            </Provider>
-        </BrowserRouter>,
-        document.getElementById("root")
-    );
-};
 
-rerenderEntireThree();
+ReactDOM.render(
+    <BrowserRouter>
+        <Provider store={store}>
+            <App
+                appState={store.getState()}
+                dispath={store.dispatch.bind(store)}
+            />
+        </Provider>
+    </BrowserRouter>,
+    document.getElementById("root")
+);
 
-store.subscribe(rerenderEntireThree);
+
 

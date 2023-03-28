@@ -61,21 +61,19 @@ const initialState = {
 export const dialogsReducer = (state: MessagesDateType = initialState, action: ActionsTypes): MessagesDateType => {
     switch(action.type) {
         case 'UPDATE-MESSAGES-TEXT':
-            state.newDialogsText = action.newText
-            return state
+            // state.newDialogsText = action.newText
+            return {...state, newDialogsText: action.newText}
         case 'ADD-MESSAGES-TEXT':
             const newMessagestData: MessageType = {
                 id: Math.random(),
                 messages: state.newDialogsText
             };
-            state.messagesData.push(newMessagestData)
+            // state.messagesData.push(newMessagestData)
             state.newDialogsText = ''
-            return state
+            return {...state, messagesData: [...state.messagesData, newMessagestData]}
         default:
             return state
         }
-
-
 }
 
 

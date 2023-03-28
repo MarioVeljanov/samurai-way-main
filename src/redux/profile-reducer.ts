@@ -38,12 +38,12 @@ export const profileReducer = (state: ProfileType = initialState, action: Action
                 likesCount: 0,
             };
 
-            state.postsData.push(newPostData);
+            // state.postsData.push(newPostData);
             state.newPostText = "";
-            return state
+            return {...state, postsData: [...state.postsData, newPostData]}
         case 'UPDATE-NEW-POST-TEXT':
-            state.newPostText = action.newText;
-            return state
+            // state.newPostText = action.newText;
+            return{...state, newPostText: action.newText}
         default:
             return state
     }

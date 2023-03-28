@@ -9,6 +9,7 @@ import Music from './components/Music/Music';
 import Settings from './components/settings/Settings';
 import {  ActionsTypes, MessagesDateType, ProfileType, SideType } from './redux/state';
 import { SuperDialogsConatainer } from './components/dialogs/DialogsContainer';
+import { UsersConatainer } from './components/users/UsersContainer';
 
 
 type AppStateType = {
@@ -27,33 +28,25 @@ type AppType = {
 
 function App(props: AppType) {
   return (
-   
+      <>
           <div className="app-wrapper">
               <Header />
               <Nav friends={props.appState.sidebarReducer} />
               <div className="app-wrapper-container">
                   <Route
                       path="/dialogs"
-                      render={() => (
-                          <SuperDialogsConatainer
-                          />
-                      )}
+                      render={() => <SuperDialogsConatainer />}
                   />
 
-                  <Route
-                      path="/profile"
-                      render={() => (
-                          <Profile
-                          />
-                      )}
-                  />
+                  <Route path="/profile" render={() => <Profile />} />
 
+                  <Route path="/users" render={() => <UsersConatainer/>} />
                   <Route path="/news" component={News} />
                   <Route path="/music" component={Music} />
                   <Route path="/settings" component={Settings} />
               </div>
           </div>
-
+      </>
   );
 }
 

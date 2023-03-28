@@ -19,6 +19,9 @@ const Nav: React.FC<NavTypeProps> = (props) => {
             <NavLink to="/dialogs" activeClassName={s.active}>Messages</NavLink>
           </div>
           <div className={s.nav_element}>
+            <NavLink to="/users" activeClassName={s.active}>Users</NavLink>
+          </div>
+          <div className={s.nav_element}>
             <NavLink to="/news" activeClassName={s.active}>News</NavLink>
           </div>
           <div className={s.nav_element}>
