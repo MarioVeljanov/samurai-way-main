@@ -1,35 +1,17 @@
-import React from "react";
-import {  ActionsTypes, ProfileType } from "../../redux/state";
+import React, { FC } from "react";
 import  { SuperPostConatainer } from "./MyPosts/MyPostCntainer";
 import s from './Profile.module.css'
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import { ProfileTypeProps } from "../../redux/profile-reducer";
 
+type profileType = {
+    profile: ProfileTypeProps | null;
+};
 
-// type PostPropstype = {
-//     posts: ProfileType;
-//     dispath: (action: ActionsTypes) => void;
-// };
-
-// const Profile: React.FC<PostPropstype> = (props) => {
-//   return (
-//       <div>
-//           <ProfileInfo />
-
-//           <MyPostContainer posts={props.posts} dispath={props.dispath} />
-//       </div>
-//   );
-// };
-
-
-// export default Profile;
-
-
-
-
-const Profile = () => {
+const Profile: FC<profileType> = (props) => {
     return (
         <div>
-            <ProfileInfo />
+            <ProfileInfo profile={props.profile}/>
 
             <SuperPostConatainer />
         </div>

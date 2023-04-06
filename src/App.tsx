@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import {  Route } from 'react-router-dom';
-import Profile from './components/profile/Profile';
 import Header from './components/header/Header';
 import Nav from './components/navbar/Nav';
 import News from './components/News/News';
@@ -10,6 +9,7 @@ import Settings from './components/settings/Settings';
 import {  ActionsTypes, MessagesDateType, ProfileType, SideType } from './redux/state';
 import { SuperDialogsConatainer } from './components/dialogs/DialogsContainer';
 import { UsersConatainer } from './components/users/UsersContainer';
+import ProfileContainer from './components/profile/ProfileContainer';
 
 
 type AppStateType = {
@@ -38,7 +38,7 @@ function App(props: AppType) {
                       render={() => <SuperDialogsConatainer />}
                   />
 
-                  <Route path="/profile" render={() => <Profile />} />
+                  <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
 
                   <Route path="/users" render={() => <UsersConatainer/>} />
                   <Route path="/news" component={News} />
