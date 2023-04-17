@@ -33,7 +33,7 @@ const intitialState: intitialStateType = {
     items: [],
     totalCount: 0,
     error: null,
-    pageSize: 10,
+    pageSize: 5,
     currentPage: 1,
     isFetching: true
 }

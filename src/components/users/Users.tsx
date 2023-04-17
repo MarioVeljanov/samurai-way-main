@@ -4,6 +4,7 @@ import userPhoto from "../../assets/img/user.jpg";
 import { userType } from '../../redux/user-reducer';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { userAPI } from '../../api/api';
 
 type UsersPropsType = {
     totalCount: number;
@@ -18,7 +19,7 @@ export const Users: FC<UsersPropsType> = (props) => {
     let pagesCount = Math.ceil(props.totalCount / props.pageSize);
     let pages = [];
 
-    for (let i = 0; i < pagesCount; i++) {
+    for (let i = 0; i < 20; i++) {
         pages.push(
             <span
                 key={i}
@@ -27,14 +28,14 @@ export const Users: FC<UsersPropsType> = (props) => {
                     props.currentPage === i + 1 ? s.selectedPage : ""
                 }
             >
-                {i + 1}
+                {i + 1}/
             </span>
         );
     }
     
     return (
         <div>
-            <div>{pages}</div>
+            <div>{pages}...{pagesCount}</div>
             {props.items.map((u) => (
                 <div key={u.id}>
                     <span>
@@ -53,21 +54,9 @@ export const Users: FC<UsersPropsType> = (props) => {
 
                         {u.followed ? 
                         <button onClick={() => {
-                                    axios
-                                        .delete(
-                                            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    userAPI.unfollowUsers(u.id).then((data) => {
                                             
-                                            {
-                                                withCredentials: true,
-                                                headers: {
-                                                    "API-KEY":
-                                                        "fccc0afd-70b9-4563-872a-f515b4509003",
-                                                }
-                                            }
-                                        )
-                                        .then((res) => {
-                                            
-                                            if (res.data.resultCode === 0) {
+                                            if (data.resultCode === 0) {
                                                 props.changeFollowClick(u.id);
                                             }
                                         });
@@ -76,19 +65,9 @@ export const Users: FC<UsersPropsType> = (props) => {
                             Unfollow
                         </button> :
                         <button onClick={() => {
-                                    axios
-                                        .post(
-                                            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
-                                            {
-                                                withCredentials: true,
-                                                headers: {
-                                                    "API-KEY":
-                                                        "fccc0afd-70b9-4563-872a-f515b4509003",
-                                                },
-                                            }
-                                        )
-                                        .then((res) => {
-                                            if (res.data.resultCode === 0) {
+                                        userAPI.followUsers(u.id)                                 
+                                        .then((data) => {
+                                            if (data.resultCode === 0) {
                                                
                                                 props.changeFollowClick(u.id);
                                             }

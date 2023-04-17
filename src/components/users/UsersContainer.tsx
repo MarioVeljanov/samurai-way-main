@@ -8,6 +8,7 @@ import { Users } from "./Users";
 import preloader from '../../assets/img/loader.gif'
 import s from "./Users.module.css";
 import { Loader } from "../preloader/Loader";
+import { userAPI } from "../../api/api";
 
 type MapStatePropsType = {
     users: intitialStateType
@@ -33,32 +34,20 @@ export type PropsType = {
 class UsersAPIComponent extends React.Component<PropsType, {}> {
     componentDidMount(): void {
         this.props.toogleIsFetching(true)
-        axios.get(
-                `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.users.currentPage}&count=${this.props.users.pageSize}`,
-                {
-                    withCredentials: true
-                }
-            )
-            .then((res) => {
-                this.props.setUsers(res.data.items);
-                this.props.setToatalUsersCount(res.data.totalCount);
-                this.props.toogleIsFetching(false);
-            });
+        userAPI.getUsers(this.props.users.currentPage, this.props.users.pageSize).then((data) => {
+            this.props.setUsers(data.items);
+            this.props.setToatalUsersCount(data.totalCount);
+            this.props.toogleIsFetching(false);
+        });
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber);
         this.props.toogleIsFetching(true);
-        axios.get(
-                `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.users.pageSize}`,
-                {
-                    withCredentials: true
-                }
-            )
-            .then((res) => {
-                this.props.setUsers(res.data.items);
-                this.props.toogleIsFetching(false);
-            });
+        userAPI.getUsers(pageNumber, this.props.users.pageSize).then((data) => {
+            this.props.setUsers(data.items);
+            this.props.toogleIsFetching(false);
+        });
     };
 
     render() {
@@ -84,26 +73,6 @@ let mapStateToProps = (state: RootState): MapStatePropsType => {
         users: state.usersReducer
     };
 };
-
-// let mapDispatchToProps = (dispath: Dispatch): MapDispathPropsType => {
-//     return {
-//         changeFollowClick: (userId: number) => {
-//             dispath(changeFollowAC(userId));
-//         },
-//         setUsers: (users) => {
-//             dispath(setUsersAC(users));
-//         },
-//         setCurrentPage: (pageNumber) => {
-//             dispath(setCurrentPageAC(pageNumber));
-//         },
-//         setToatalUsersCount: (totalCount) => {
-//             dispath(setToatalUsersCountAC(totalCount));
-//         },
-//         toogleIsFetching: (isFetching) => {
-//             dispath(setIsFetchingtAC(isFetching));
-//         }
-//     };
-// };
 
 
 export const UsersConatainer = connect(mapStateToProps, {
