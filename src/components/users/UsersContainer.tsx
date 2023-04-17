@@ -34,7 +34,10 @@ class UsersAPIComponent extends React.Component<PropsType, {}> {
     componentDidMount(): void {
         this.props.toogleIsFetching(true)
         axios.get(
-                `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.users.currentPage}&count=${this.props.users.pageSize}`
+                `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.users.currentPage}&count=${this.props.users.pageSize}`,
+                {
+                    withCredentials: true
+                }
             )
             .then((res) => {
                 this.props.setUsers(res.data.items);
@@ -47,7 +50,10 @@ class UsersAPIComponent extends React.Component<PropsType, {}> {
         this.props.setCurrentPage(pageNumber);
         this.props.toogleIsFetching(true);
         axios.get(
-                `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.users.pageSize}`
+                `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.users.pageSize}`,
+                {
+                    withCredentials: true
+                }
             )
             .then((res) => {
                 this.props.setUsers(res.data.items);

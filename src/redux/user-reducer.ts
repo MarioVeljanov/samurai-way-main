@@ -39,6 +39,7 @@ const intitialState: intitialStateType = {
 }
 
 export const usersReducer = (state: intitialStateType = intitialState, action: UsersActionsTypes): intitialStateType => {
+    
     switch(action.type) {
         case 'CHANGE-FOLLOW':
             return {...state, items: state.items.map(u => u.id === action.userId ? {...u, followed: !u.followed} : u)}
