@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import {  Route } from 'react-router-dom';
-import Header from './components/header/Header';
 import Nav from './components/navbar/Nav';
 import News from './components/News/News';
 import Music from './components/Music/Music';
@@ -10,6 +9,7 @@ import {  ActionsTypes, MessagesDateType, ProfileType, SideType } from './redux/
 import { SuperDialogsConatainer } from './components/dialogs/DialogsContainer';
 import { UsersConatainer } from './components/users/UsersContainer';
 import ProfileContainer from './components/profile/ProfileContainer';
+import HeaderContainer from './components/header/HeaderContainer';
 
 
 type AppStateType = {
@@ -30,7 +30,7 @@ function App(props: AppType) {
   return (
       <>
           <div className="app-wrapper">
-              <Header />
+              <HeaderContainer />
               <Nav friends={props.appState.sidebarReducer} />
               <div className="app-wrapper-container">
                   <Route
@@ -38,9 +38,12 @@ function App(props: AppType) {
                       render={() => <SuperDialogsConatainer />}
                   />
 
-                  <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
+                  <Route
+                      path="/profile/:userId?"
+                      render={() => <ProfileContainer />}
+                  />
 
-                  <Route path="/users" render={() => <UsersConatainer/>} />
+                  <Route path="/users" render={() => <UsersConatainer />} />
                   <Route path="/news" component={News} />
                   <Route path="/music" component={Music} />
                   <Route path="/settings" component={Settings} />

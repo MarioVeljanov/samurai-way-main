@@ -14,3 +14,7 @@ header img {
   width: 50px;
   align-self: center;
 }
+
+.loginBlock {
+  float: right
+}
