@@ -11,8 +11,10 @@ type UsersPropsType = {
     pageSize: number;
     items: userType[];
     currentPage: number;
+    followingIsProgres: number[]
     changeFollowClick: (userId: number) => void;
-    onPageChanged: (pageNumber: number) => void
+    onPageChanged: (pageNumber: number) => void;
+    toogleFollowingProgres: (isFetching: boolean, userId: number) => void;
 };
 
 export const Users: FC<UsersPropsType> = (props) => {
@@ -35,7 +37,9 @@ export const Users: FC<UsersPropsType> = (props) => {
     
     return (
         <div>
-            <div>{pages}...{pagesCount}</div>
+            <div>
+                {pages}...{pagesCount}
+            </div>
             {props.items.map((u) => (
                 <div key={u.id}>
                     <span>
@@ -52,32 +56,37 @@ export const Users: FC<UsersPropsType> = (props) => {
                             </NavLink>
                         </div>
 
-                        {u.followed ? 
-                        <button onClick={() => {
+                        {u.followed ? (
+                            <button
+                                disabled={props.followingIsProgres.includes(u.id)}
+                                onClick={() => {
+                                    props.toogleFollowingProgres(true, u.id);
                                     userAPI.unfollowUsers(u.id).then((data) => {
-                                            
-                                            if (data.resultCode === 0) {
-                                                props.changeFollowClick(u.id);
-                                            }
-                                        });
-
-                        }}>
-                            Unfollow
-                        </button> :
-                        <button onClick={() => {
-                                        userAPI.followUsers(u.id)                                 
-                                        .then((data) => {
-                                            if (data.resultCode === 0) {
-                                               
-                                                props.changeFollowClick(u.id);
-                                            }
-                                        });
-
-                        }}>
-                            Follow
-                        </button> 
-
-                        }
+                                        if (data.resultCode === 0) {
+                                            props.changeFollowClick(u.id);
+                                        }
+                                        props.toogleFollowingProgres(false, u.id);
+                                    });
+                                }}
+                            >
+                                Unfollow
+                            </button>
+                        ) : (
+                            <button
+                                disabled={props.followingIsProgres.includes(u.id)}
+                                onClick={() => {
+                                    props.toogleFollowingProgres(true, u.id);
+                                    userAPI.followUsers(u.id).then((data) => {
+                                        if (data.resultCode === 0) {
+                                            props.changeFollowClick(u.id);
+                                        }
+                                        props.toogleFollowingProgres(false, u.id);
+                                    });
+                                }}
+                            >
+                                Follow
+                            </button>
+                        )}
                     </span>
                     <span>
                         <span>

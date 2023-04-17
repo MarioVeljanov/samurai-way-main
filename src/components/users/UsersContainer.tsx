@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../redux/redux-store";
-import { changeFollowClick, intitialStateType, setCurrentPage, setToatalUsersCount, setUsers, toogleIsFetching, userPropsType, userType } from "../../redux/user-reducer";
+import { changeFollowClick, intitialStateType, setCurrentPage, setToatalUsersCount, setUsers, toogleIsFetching, toogleFollowingProgres, userType } from "../../redux/user-reducer";
 import { Users } from "./Users";
 import preloader from '../../assets/img/loader.gif'
 import s from "./Users.module.css";
@@ -14,14 +14,6 @@ type MapStatePropsType = {
     users: intitialStateType
 } 
 
-type MapDispathPropsType = {
-    changeFollowClick: (userId: number) => void;
-    setUsers: (users: any) => void;
-    setCurrentPage: (pageNumber: number) => void;
-    setToatalUsersCount: (totalCount: number) => void;
-    toogleIsFetching: (isFetching: boolean) => void
-};
-
 export type PropsType = {
     users: intitialStateType;
     changeFollowClick: (userId: number) => void;
@@ -29,6 +21,7 @@ export type PropsType = {
     setCurrentPage: (pageNumber: number) => void;
     setToatalUsersCount: (totalCount: number) => void;
     toogleIsFetching: (isFetching: boolean) => void;
+    toogleFollowingProgres:(isFetching: boolean, userId: number) => void
 };
 
 class UsersAPIComponent extends React.Component<PropsType, {}> {
@@ -53,7 +46,7 @@ class UsersAPIComponent extends React.Component<PropsType, {}> {
     render() {
         return (
             <>
-                {this.props.users.isFetching ? <Loader/> : null}
+                {this.props.users.isFetching ? <Loader /> : null}
                 <Users
                     totalCount={this.props.users.totalCount}
                     pageSize={this.props.users.pageSize}
@@ -61,6 +54,8 @@ class UsersAPIComponent extends React.Component<PropsType, {}> {
                     items={this.props.users.items}
                     changeFollowClick={this.props.changeFollowClick}
                     onPageChanged={this.onPageChanged}
+                    toogleFollowingProgres={this.props.toogleFollowingProgres}
+                    followingIsProgres={this.props.users.followingIsProgres}
                 />
             </>
         );
@@ -80,6 +75,7 @@ export const UsersConatainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setToatalUsersCount,
-    toogleIsFetching
+    toogleIsFetching,
+    toogleFollowingProgres
 })(UsersAPIComponent);
 

@@ -4,6 +4,7 @@ export type  UsersActionsTypes =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setToatalUsersCount>
     | ReturnType<typeof toogleIsFetching>
+    | ReturnType<typeof toogleFollowingProgres>
 
 export type userType = {
     id: number
@@ -27,6 +28,7 @@ export type intitialStateType = userPropsType & {
     pageSize: number
     currentPage: number
     isFetching: boolean
+    followingIsProgres: number[]
 }
 
 const intitialState: intitialStateType = {
@@ -35,11 +37,12 @@ const intitialState: intitialStateType = {
     error: null,
     pageSize: 5,
     currentPage: 1,
-    isFetching: true
+    isFetching: true,
+    followingIsProgres: []
 }
 
 export const usersReducer = (state: intitialStateType = intitialState, action: UsersActionsTypes): intitialStateType => {
-    
+    debugger
     switch(action.type) {
         case 'CHANGE-FOLLOW':
             return {...state, items: state.items.map(u => u.id === action.userId ? {...u, followed: !u.followed} : u)}
@@ -49,8 +52,12 @@ export const usersReducer = (state: intitialStateType = intitialState, action: U
             return {...state, currentPage: action.currentPage}
         case 'SET-TOTAL-COUNT':
             return {...state, totalCount: action.totalUsersCount}
-        case 'TOOGLE-IS-GETCHING':
+        case 'TOOGLE-IS-FETCHING':
             return {...state, isFetching: action.isFetching}
+        case 'TOOGLE-IS-FOLLOWING-PROGRES':
+            return action.isFetching
+                ? {...state, followingIsProgres: [...state.followingIsProgres, action.userId]} 
+                : {...state, followingIsProgres: state.followingIsProgres.filter(id => id !== action.userId)}
         default:
             return state
     }
@@ -60,4 +67,5 @@ export const changeFollowClick = (userId: number) => ({type: 'CHANGE-FOLLOW', us
 export const setUsers = (users: userType[]) => ({type: "SET-USERS", users} as const)
 export const setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 export const setToatalUsersCount = (totalUsersCount: number) => ({type: 'SET-TOTAL-COUNT', totalUsersCount} as const)
-export const toogleIsFetching = (isFetching: boolean) => ({type: 'TOOGLE-IS-GETCHING', isFetching} as const)
+export const toogleIsFetching = (isFetching: boolean) => ({type: 'TOOGLE-IS-FETCHING', isFetching} as const)
+export const toogleFollowingProgres = (isFetching: boolean, userId: number) => ({type: 'TOOGLE-IS-FOLLOWING-PROGRES', isFetching, userId} as const)
