@@ -1,3 +1,5 @@
+import { userAPI } from "../api/api"
+
 export type  UsersActionsTypes = 
     ReturnType<typeof setAuthUserData>
     // | ReturnType<typeof setUsers>
@@ -30,3 +32,15 @@ export const authReducer = (state  = intitialState, action: UsersActionsTypes) =
 }
 
 export const setAuthUserData = (id:string, email:string, login:string) => ({type: 'SET-USER-DATA', data: {id, email, login}} as const)
+
+
+export const authUser = () => {
+    return (dispath: Function) => {
+        userAPI.authUsers().then(res => {
+            if(res.resultCode === 0) {
+                let { id, email, login } = res.data;
+                dispath(setAuthUserData(id, email, login))
+            }
+        });
+    }
+}

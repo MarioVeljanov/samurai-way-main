@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../redux/redux-store";
-import { changeFollowClick, intitialStateType, setCurrentPage, setToatalUsersCount, setUsers, toogleIsFetching, toogleFollowingProgres, userType } from "../../redux/user-reducer";
+import { intitialStateType, setCurrentPage, setToatalUsersCount, setUsers, toogleIsFetching, toogleFollowingProgres, userType, getUsers, followUnfollow } from "../../redux/user-reducer";
 import { Users } from "./Users";
 import preloader from '../../assets/img/loader.gif'
 import s from "./Users.module.css";
@@ -16,31 +16,19 @@ type MapStatePropsType = {
 
 export type PropsType = {
     users: intitialStateType;
-    changeFollowClick: (userId: number) => void;
-    setUsers: (users: userType[]) => void;
     setCurrentPage: (pageNumber: number) => void;
-    setToatalUsersCount: (totalCount: number) => void;
-    toogleIsFetching: (isFetching: boolean) => void;
-    toogleFollowingProgres:(isFetching: boolean, userId: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void;
+    followUnfollow: (userId: number) => void
 };
 
 class UsersAPIComponent extends React.Component<PropsType, {}> {
     componentDidMount(): void {
-        this.props.toogleIsFetching(true)
-        userAPI.getUsers(this.props.users.currentPage, this.props.users.pageSize).then((data) => {
-            this.props.setUsers(data.items);
-            this.props.setToatalUsersCount(data.totalCount);
-            this.props.toogleIsFetching(false);
-        });
+        this.props.getUsers(this.props.users.currentPage, this.props.users.pageSize)
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber);
-        this.props.toogleIsFetching(true);
-        userAPI.getUsers(pageNumber, this.props.users.pageSize).then((data) => {
-            this.props.setUsers(data.items);
-            this.props.toogleIsFetching(false);
-        });
+        this.props.getUsers(this.props.users.currentPage, this.props.users.pageSize)
     };
 
     render() {
@@ -52,10 +40,9 @@ class UsersAPIComponent extends React.Component<PropsType, {}> {
                     pageSize={this.props.users.pageSize}
                     currentPage={this.props.users.currentPage}
                     items={this.props.users.items}
-                    changeFollowClick={this.props.changeFollowClick}
                     onPageChanged={this.onPageChanged}
-                    toogleFollowingProgres={this.props.toogleFollowingProgres}
                     followingIsProgres={this.props.users.followingIsProgres}
+                    followUnfollow={this.props.followUnfollow}
                 />
             </>
         );
@@ -71,11 +58,8 @@ let mapStateToProps = (state: RootState): MapStatePropsType => {
 
 
 export const UsersConatainer = connect(mapStateToProps, {
-    changeFollowClick,
-    setUsers,
     setCurrentPage,
-    setToatalUsersCount,
-    toogleIsFetching,
-    toogleFollowingProgres
+    getUsers,
+    followUnfollow
 })(UsersAPIComponent);
 

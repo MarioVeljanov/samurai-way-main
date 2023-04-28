@@ -10,6 +10,7 @@ import { SuperDialogsConatainer } from './components/dialogs/DialogsContainer';
 import { UsersConatainer } from './components/users/UsersContainer';
 import ProfileContainer from './components/profile/ProfileContainer';
 import HeaderContainer from './components/header/HeaderContainer';
+import { Login } from './components/login/Login';
 
 
 type AppStateType = {
@@ -41,6 +42,10 @@ function App(props: AppType) {
                   <Route
                       path="/profile/:userId?"
                       render={() => <ProfileContainer />}
+                  />
+                  <Route
+                      path="/login"
+                      render={() => <Login />}
                   />
 
                   <Route path="/users" render={() => <UsersConatainer />} />

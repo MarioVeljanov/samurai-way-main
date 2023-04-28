@@ -1,16 +1,19 @@
 import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import { connect } from "react-redux";
-import { ProfileTypeProps, setUserProfile } from "../../redux/profile-reducer";
+import { ProfileTypeProps, getProfile } from "../../redux/profile-reducer";
 import { RootState } from "../../redux/redux-store";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
 
-
+type mapStateToProps = {
+    profile: ProfileTypeProps | null;
+    isAuth: boolean
+};
 
 export type PropsType = {
     profile: ProfileTypeProps | null;
-    setUserProfile: (profile: ProfileTypeProps) => void;
+    isAuth: boolean
+    getProfile: (userId: string) => void
 };
 
 export type PathParamsType = {
@@ -24,14 +27,12 @@ class ProfileContainer extends React.Component<PropsType & RouteComponentProps<P
         if(!userId) {
             userId = '3'
         }
-        axios.get(
-                `https://social-network.samuraijs.com/api/1.0/profile/${userId}`
-            )
-            .then((res) => {
-                this.props.setUserProfile(res.data);
-            });
+        this.props.getProfile(userId)
     }
     render() {
+        if(!this.props.isAuth) {
+            return <Redirect to={'/login'}/>
+        }
         return (
             <div>
                 <Profile {...this.props } profile={this.props.profile}/>
@@ -40,11 +41,12 @@ class ProfileContainer extends React.Component<PropsType & RouteComponentProps<P
     };
 };
 
-let mapStateToProps = (state: RootState): {profile: ProfileTypeProps | null} => ({
-    profile: state.profileReducer.profile
+let mapStateToProps = (state: RootState): mapStateToProps => ({
+    profile: state.profileReducer.profile,
+    isAuth: state.authReducer.isAuth
 });
 
 let WithUrlDataContainerComponent = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps, { setUserProfile })(WithUrlDataContainerComponent); 
+export default connect(mapStateToProps, { getProfile })(WithUrlDataContainerComponent); 
 

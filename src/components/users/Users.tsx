@@ -11,10 +11,9 @@ type UsersPropsType = {
     pageSize: number;
     items: userType[];
     currentPage: number;
-    followingIsProgres: number[]
-    changeFollowClick: (userId: number) => void;
+    followingIsProgres: number[];
+    followUnfollow: (userId: number) => void;
     onPageChanged: (pageNumber: number) => void;
-    toogleFollowingProgres: (isFetching: boolean, userId: number) => void;
 };
 
 export const Users: FC<UsersPropsType> = (props) => {
@@ -59,30 +58,14 @@ export const Users: FC<UsersPropsType> = (props) => {
                         {u.followed ? (
                             <button
                                 disabled={props.followingIsProgres.includes(u.id)}
-                                onClick={() => {
-                                    props.toogleFollowingProgres(true, u.id);
-                                    userAPI.unfollowUsers(u.id).then((data) => {
-                                        if (data.resultCode === 0) {
-                                            props.changeFollowClick(u.id);
-                                        }
-                                        props.toogleFollowingProgres(false, u.id);
-                                    });
-                                }}
+                                onClick={() => props.followUnfollow(u.id)}
                             >
                                 Unfollow
                             </button>
                         ) : (
                             <button
                                 disabled={props.followingIsProgres.includes(u.id)}
-                                onClick={() => {
-                                    props.toogleFollowingProgres(true, u.id);
-                                    userAPI.followUsers(u.id).then((data) => {
-                                        if (data.resultCode === 0) {
-                                            props.changeFollowClick(u.id);
-                                        }
-                                        props.toogleFollowingProgres(false, u.id);
-                                    });
-                                }}
+                                onClick={() => props.followUnfollow(u.id)}
                             >
                                 Follow
                             </button>

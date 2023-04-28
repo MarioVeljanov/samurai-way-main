@@ -17,9 +17,9 @@ const MessageSender: React.FC<MessageSenderType> = (props) => {
     };
 
 
-     const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-         props.onNewMessagesClick(e.currentTarget.value)
-     };
+    const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.onNewMessagesClick(e.currentTarget.value)
+    };
     return (
         <div id={"hw1-send-message-form"} className={s.sendForm}>
             <textarea

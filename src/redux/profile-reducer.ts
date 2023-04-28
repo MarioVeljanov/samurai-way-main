@@ -1,3 +1,4 @@
+import { userAPI } from "../api/api";
 
 
 export type ActionsTypes = 
@@ -81,8 +82,6 @@ export const profileReducer = (state: ProfileType = initialState, action: Action
         default:
             return state
     }
-
-    return state
 }
 
 export const addPostActionCreater = () => {
@@ -96,3 +95,12 @@ export const updateNewPostTextActionCreater = (text: string) => {
 export const setUserProfile = (profile: ProfileTypeProps) => {
     return { type: "SET-USER-PROFILE", profile } as const;
 };
+
+
+export const getProfile = (userId: string) => {
+    return (dispath: Function) => {
+        userAPI.getProfile(userId).then((res) => {
+            dispath(setUserProfile(res.data))
+        });
+    }
+}

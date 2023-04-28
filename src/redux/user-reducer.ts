@@ -1,3 +1,5 @@
+import { userAPI } from "../api/api"
+
 export type  UsersActionsTypes = 
     ReturnType<typeof changeFollowClick>
     | ReturnType<typeof setUsers>
@@ -69,3 +71,28 @@ export const setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE
 export const setToatalUsersCount = (totalUsersCount: number) => ({type: 'SET-TOTAL-COUNT', totalUsersCount} as const)
 export const toogleIsFetching = (isFetching: boolean) => ({type: 'TOOGLE-IS-FETCHING', isFetching} as const)
 export const toogleFollowingProgres = (isFetching: boolean, userId: number) => ({type: 'TOOGLE-IS-FOLLOWING-PROGRES', isFetching, userId} as const)
+
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+    return (dispath: Function) => {
+        dispath(toogleIsFetching(true))
+        userAPI.getUsers(currentPage, pageSize).then((data) => {
+            dispath(setUsers(data.items))
+            dispath(setToatalUsersCount(data.totalCount))
+            dispath(toogleIsFetching(false))
+        });
+    }
+}
+
+export const followUnfollow = (userId: number) => {
+    return (dispath: Function) => {
+        dispath(toogleFollowingProgres(true, userId));
+        userAPI.followUsers(userId).then((data) => {
+            debugger
+            if (data.resultCode === 0 || data.resultCode === 1) {
+                dispath(changeFollowClick(userId));
+            } 
+            dispath(toogleFollowingProgres(false, userId));
+        });
+    }
+}
